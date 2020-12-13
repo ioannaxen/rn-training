@@ -22,6 +22,7 @@ type Props = {
 
 export const Home = ({ navigation }: Props) => {
   const [palettes, setPalettes] = useState<Array<PaletteType>>([])
+  const [isRefreshing, setIsRefreshing] = useState(false)
 
   const fetchPalettes = useCallback(async () => {
     const result = await fetch(
@@ -39,6 +40,12 @@ export const Home = ({ navigation }: Props) => {
     fetchPalettes()
   }, [fetchPalettes])
 
+  const handleRefresh = useCallback(async () => {
+    setIsRefreshing(true)
+    await fetchPalettes()
+    setIsRefreshing(false)
+  }, [fetchPalettes])
+
   return (
     <SafeArea>
       <FlatList
@@ -52,6 +59,8 @@ export const Home = ({ navigation }: Props) => {
           />
         )}
         keyExtractor={({ paletteName }) => paletteName}
+        refreshing={isRefreshing}
+        onRefresh={handleRefresh}
       />
     </SafeArea>
   )
