@@ -1,4 +1,4 @@
-import { PaletteType } from './palettes'
+import { PaletteType } from './screens/ColorPalette'
 
 export enum ROUTES {
   HOME = 'Home',

@@ -1,10 +1,10 @@
-import React from 'react'
+import React, { useEffect, useCallback, useState } from 'react'
 import { SafeAreaView, FlatList } from 'react-native'
 import { StackNavigationProp } from '@react-navigation/stack'
 import styled from 'styled-components'
 import { ROUTES, RootStackParamList } from '../routes'
-import { PALETTES } from '../palettes'
 import { PalettePreview } from '../components/PalettePreview'
+import { PaletteType } from './ColorPalette'
 
 const SafeArea = styled(SafeAreaView)`
   background-color: white;
@@ -20,19 +20,39 @@ type Props = {
   navigation: HomeStackNavigationProp
 }
 
-export const Home = ({ navigation }: Props) => (
-  <SafeArea>
-    <FlatList
-      data={PALETTES}
-      renderItem={({ item: palette }) => (
-        <PalettePreview
-          onPress={() =>
-            navigation.navigate(ROUTES.COLOR_PALETTE, { palette: palette })
-          }
-          palette={palette}
-        />
-      )}
-      keyExtractor={({ name }) => name}
-    />
-  </SafeArea>
-)
+export const Home = ({ navigation }: Props) => {
+  const [palettes, setPalettes] = useState<Array<PaletteType>>([])
+
+  const fetchPalettes = useCallback(async () => {
+    const result = await fetch(
+      'https://color-palette-api.kadikraman.now.sh/palettes',
+    )
+    // See https://github.com/kadikraman/color-palette-api
+    // for more on this API
+    if (result.ok) {
+      const data: Array<PaletteType> = await result.json()
+      setPalettes(data)
+    }
+  }, [])
+
+  useEffect(() => {
+    fetchPalettes()
+  }, [fetchPalettes])
+
+  return (
+    <SafeArea>
+      <FlatList
+        data={palettes}
+        renderItem={({ item: palette }) => (
+          <PalettePreview
+            onPress={() =>
+              navigation.navigate(ROUTES.COLOR_PALETTE, { palette: palette })
+            }
+            palette={palette}
+          />
+        )}
+        keyExtractor={({ paletteName }) => paletteName}
+      />
+    </SafeArea>
+  )
+}

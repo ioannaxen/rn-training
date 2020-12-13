@@ -3,7 +3,12 @@ import { View, Text, FlatList } from 'react-native'
 import { RouteProp } from '@react-navigation/native'
 import styled from 'styled-components/native'
 import { ROUTES, RootStackParamList } from '../routes'
-import { Color } from '../components/Color'
+import { Color, ColorType } from '../components/Color'
+
+export type PaletteType = {
+  paletteName: string
+  colors: Array<ColorType>
+}
 
 const Container = styled(View)`
   padding: 10px;
@@ -25,7 +30,7 @@ type Props = {
 export const ColorPalette = ({
   route: {
     params: {
-      palette: { name, colors },
+      palette: { paletteName, colors },
     },
   },
 }: Props) => (
@@ -36,7 +41,7 @@ export const ColorPalette = ({
         <Color colorName={colorName} hexCode={hexCode} />
       )}
       keyExtractor={({ hexCode }) => hexCode}
-      ListHeaderComponent={<Title>{name}</Title>}
+      ListHeaderComponent={<Title>{paletteName}</Title>}
     />
   </Container>
 )

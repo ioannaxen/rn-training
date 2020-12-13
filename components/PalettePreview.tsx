@@ -1,7 +1,7 @@
 import React from 'react'
 import { TouchableOpacity, FlatList, View, Text } from 'react-native'
 import styled from 'styled-components'
-import { PaletteType } from '../palettes'
+import { PaletteType } from '../screens/ColorPalette'
 
 const StyledTouchableOpacity = styled(TouchableOpacity)`
   margin: 15px 10px;
@@ -33,7 +33,7 @@ type Props = {
 
 export const PalettePreview = ({ onPress, palette }: Props) => (
   <StyledTouchableOpacity onPress={onPress}>
-    <StyledText>{palette.name}</StyledText>
+    <StyledText>{palette.paletteName}</StyledText>
     <StyledFlatList
       data={palette.colors.slice(0, 5)}
       renderItem={({ item: { hexCode } }) => <ColorPreview color={hexCode} />}

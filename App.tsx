@@ -17,11 +17,11 @@ const App = () => (
         options={({
           route: {
             params: {
-              palette: { name },
+              palette: { paletteName },
             },
           },
         }) => ({
-          title: name,
+          title: paletteName,
         })}
       />
     </Stack.Navigator>
