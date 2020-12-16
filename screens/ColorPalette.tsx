@@ -2,7 +2,7 @@ import React from 'react'
 import { View, Text, FlatList } from 'react-native'
 import { RouteProp } from '@react-navigation/native'
 import styled from 'styled-components/native'
-import { ROUTES, RootStackParamList } from '../routes'
+import { ROUTES, MainStackParamList } from '../routes'
 import { Color, ColorType } from '../components/Color'
 
 export type PaletteType = {
@@ -21,7 +21,7 @@ const Title = styled(Text)`
   padding-bottom: 10px;
 `
 
-type ColorPaletteRouteProp = RouteProp<RootStackParamList, ROUTES.COLOR_PALETTE>
+type ColorPaletteRouteProp = RouteProp<MainStackParamList, ROUTES.COLOR_PALETTE>
 
 type Props = {
   route: ColorPaletteRouteProp
